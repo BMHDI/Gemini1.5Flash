@@ -5,28 +5,28 @@ This tutorial introduces the learner to the ChatGPT API by walking through how t
 Use this repository for the tutorial!
 
 - [AI Coding Assistant](#ai-coding-assistant)
-  * [Setup](#setup)
-    + [Creating an Account](#creating-an-account)
-    + [Getting an API Key](#getting-an-api-key)
-    + [Saving your API Key](#saving-your-api-key)
-    + [Initialize and Install OpenAI](#initialize-and-install-openai)
-    + [Using the import](#using-the-import)
-  * [Exercise 1](#exercise-1)
-    + [File contents](#file-contents)
-    + [Additional Setup](#additional-setup)
-    + [Checkpoint 1.1](#checkpoint-11)
-    + [Refining output / Checkpoint 1.2](#refining-output---checkpoint-12)
-  * [Exercise 2](#exercise-2)
-    + [Implementing user input](#implementing-user-input)
+  - [Setup](#setup)
+    - [Creating an Account](#creating-an-account)
+    - [Getting an API Key](#getting-an-api-key)
+    - [Saving your API Key](#saving-your-api-key)
+    - [Initialize and Install OpenAI](#initialize-and-install-openai)
+    - [Using the import](#using-the-import)
+  - [Exercise 1](#exercise-1)
+    - [File contents](#file-contents)
+    - [Additional Setup](#additional-setup)
+    - [Checkpoint 1.1](#checkpoint-11)
+    - [Refining output / Checkpoint 1.2](#refining-output--checkpoint-12)
+  - [Exercise 2](#exercise-2)
+    - [Implementing user input](#implementing-user-input)
       - [Solution Hint](#solution-hint)
       - [Checkpoint 2.1](#checkpoint-21)
-    + [Adding system input](#adding-system-input)
+    - [Adding system input](#adding-system-input)
       - [Checkpoint 2.2](#checkpoint-22)
-  * [Exercise 3](#exercise-3)
-    + [Passing in sample code using fs](#passing-in-sample-code-using-fs)
+  - [Exercise 3](#exercise-3)
+    - [Passing in sample code using fs](#passing-in-sample-code-using-fs)
       - [Checkpoint 3.1](#checkpoint-31)
-    + [Bringing user input back / Checkpoint 3.2](#bringing-user-input-back---checkpoint-32)
-    + [Extra Spicy Challenge](#extra-spicy-challenge)
+    - [Bringing user input back / Checkpoint 3.2](#bringing-user-input-back--checkpoint-32)
+    - [Extra Spicy Challenge](#extra-spicy-challenge)
 - [Further Reading](#further-reading)
 
 ## Setup
@@ -35,7 +35,7 @@ Use this repository for the tutorial!
 
 In order to use the ChatGPT API, you will need an openai account.
 
-Navigate to the [OpenAI API page](https://openai.com/product) and Click on Get Started. Create an account.
+Navigate to the [goggle cloude API page](https://ai.google.dev/gemini-api/docs) and Click on Get Started. Create an account.
 
 ### Getting an API Key
 
@@ -48,7 +48,7 @@ Create your own key, or use the one provided to you.
 On the root directory of your project, create an `.env` file. Add the following contents:
 
 ```
-OPENAI_API_KEY=<your api key here>
+GOOGLE_AI_API_KEY=<your api key here>
 ```
 
 replacing `<your api key here>` with your key.
@@ -59,8 +59,9 @@ Run:
 
 ```
 npm init -y
-npm install openai
-npm install dotenv # allows your api key to be read
+npm install googleapis
+npm install dotenv
+
 ```
 
 Add the following line in the root object within `package.json`:
@@ -92,27 +93,20 @@ For Exercise 1, we will run the setup and test our integration to the ChatGPT AP
 Complete the setup and create the following file:
 
 ```
-import dotenv from "dotenv"
-import OpenAI from "openai"
 
-dotenv.config()
+import dotenv from 'dotenv';
+import { google } from 'googleapis';
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-})
+dotenv.config();
 
-async function main() {
-  console.log("Assistant is typing...")
-  console.log()
-  const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: "You are a helpful assistant." }],
-    model: "gpt-3.5-turbo",
-  })
+// Set up the Gemini API client
+const gemini = google.gemini('v1.5');
 
-  console.log(completion)
-}
+// Create an instance of the Gemini client with your API Key
+const geminiClient = gemini({
+  apiKey: process.env.GEMINI_API_KEY,
+});
 
-main()
 ```
 
 ### Additional Setup
